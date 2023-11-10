@@ -25,7 +25,6 @@ export const register = async (req: express.Request, res: express.Response) => {
 				password: auth(salt, password),
 			},
 		});
-		console.log('passou');
 		return res.status(200).json(user).end();
 	} catch (err) {
 		console.log(err);
@@ -37,17 +36,17 @@ export const login = async (req: express.Request, res: express.Response) => {
 	try {
 		const { email, password } = req.body;
 		if (!email || !password) {
-			return res.sendStatus(400);
+			res.sendStatus(400);
 		}
 		const user: any = await getUserByEmail(email).select(
 			'+auth.salt +auth.password',
 		);
 		if (!user) {
-			return res.sendStatus(400);
+			res.sendStatus(400);
 		}
 		const expectedHash = auth(user.auth.salt, password);
 		if (user.auth.password !== expectedHash) {
-			return res.sendStatus(403);
+			res.sendStatus(403);
 		}
 
 		const salt = random();
@@ -59,7 +58,7 @@ export const login = async (req: express.Request, res: express.Response) => {
 			domain: 'localhost',
 			path: '/',
 		});
-		return res.status(200).json(user).end();
+		return res.json(user).end();
 	} catch (err) {
 		console.error(err);
 		return res.sendStatus(400);
