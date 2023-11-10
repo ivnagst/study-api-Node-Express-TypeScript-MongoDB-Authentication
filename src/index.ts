@@ -6,12 +6,15 @@ import compression from 'compression';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import router from './router';
+import dotenv from 'dotenv';
 
-const PORT = 8080;
-const MONGO_USERNAME = 'ivnagst';
-const MONGO_PASSWORD = '3Y6qE5rpmwjT8B4e';
-const MONGO_CLUSTER = 'cluster0.vkv3fi4.mongodb.net';
-const MONGO_DATABASE = 'majority654159971f7657fac4a15d6e'; // Substitua pelo nome do seu banco de dados
+dotenv.config();
+
+const PORT = process.env.PORT || 8080;
+const MONGO_USERNAME = process.env.MONGO_USERNAME;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const MONGO_CLUSTER = process.env.MONGO_CLUSTER;
+const MONGO_DATABASE = process.env.MONGO_DATABASE;
 const MONGO_URI = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_CLUSTER}/${MONGO_DATABASE}?retryWrites=true&w=majority`;
 
 const app = express();
